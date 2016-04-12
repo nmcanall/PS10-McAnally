@@ -1,0 +1,47 @@
+import edu.princeton.cs.algs4.CC;
+import edu.princeton.cs.algs4.Graph;
+import edu.princeton.cs.algs4.SymbolGraph;
+
+// This class will provide code to compute stats from movies.txt
+
+public class MoviesTest {
+
+	public static void main(String[] args) {
+		
+		// Create a symbol graph from movies.txt and convert to a graph
+		SymbolGraph sg = new SymbolGraph("C:/algs4/algs4-data/movies.txt", "/");
+		Graph g = sg.G();
+		
+		// Create a connected component structure for the undirected graph g
+		CC cc = new CC(g);
+		
+		// Number of connected components
+		int numComponents = cc.count();
+		
+		// Size of largest component
+		int max = -1;
+		for (int v = 0; v < g.V(); v++) {
+			if (cc.size(v) > max)
+				max = cc.size(v);
+		}
+		
+		// Num of components of size < 10
+		int numLess = 0;
+		boolean[] visited = new boolean[g.V()];
+		for (int v = 0; v < g.V(); v++) {
+			if (!visited[v]) {
+				for (int i : g.adj(v)) 
+					visited[i] = true;
+				if (cc.size(v) < 10)
+					numLess++;
+			}
+		}
+		
+		// Solution statements
+		System.out.println("Number of connected components: " + numComponents);
+		System.out.println("Size of largest component: " + max);
+		System.out.println("Number of components with size less than 10: " + numLess);
+		
+	}
+	
+}
